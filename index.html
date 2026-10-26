@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Web Ultimate Pro Max</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        wa: {
+                            emerald: '#00a884',
+                            emeraldDark: '#008069',
+                            darkBg: '#0b141a',
+                            darkHeader: '#202c33',
+                            darkHover: '#2a3942',
+                            darkBorder: '#222d34',
+                            accentBlue: '#34b7f1',
+                            lightBg: '#f0f2f5',
+                            lightHeader: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 h-screen w-screen overflow-hidden flex justify-center items-center transition-colors duration-300" id="app-body">
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[300] space-y-2 pointer-events-none"></div>
+
+    <!-- ADVANCED GLASSMORPHIC AUTH SCREEN -->
+    <div id="auth-screen" class="fixed inset-0 bg-gradient-to-tr from-slate-950 via-wa-darkBg to-emerald-950/90 z-[200] flex items-center justify-center p-4">
+        <div class="bg-wa-darkHeader/95 backdrop-blur-3xl p-8 rounded-[40px] shadow-2xl max-w-md w-full border border-emerald-500/40 text-center relative overflow-hidden">
+            <div class="absolute -top-20 -right-20 w-60 h-60 bg-wa-emerald/30 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-blue-500/20 rounded-full blur-3xl"></div>
+            
+            <div class="w-20 h-20 bg-gradient-to-tr from-wa-emerald via-emerald-500 to-emerald-300 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-wa-emerald/50 text-white text-4xl">
+                <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <h1 class="text-2xl font-black mb-1 text-white tracking-tight">WhatsApp Web Ultimate</h1>
+            <p class="text-slate-400 text-xs mb-6 font-medium">Advanced Secure Cloud & Real-Time Messenger</p>
+            
+            <div class="flex justify-center gap-2 mb-6 bg-wa-darkBg/90 p-1.5 rounded-2xl border border-wa-darkBorder">
+                <button onclick="switchAuthTab('login')" id="auth-tab-login" class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-wa-emerald text-white shadow-lg transition">Sign In</button>
+                <button onclick="switchAuthTab('signup')" id="auth-tab-signup" class="flex-1 py-2.5 text-xs font-bold rounded-xl text-slate-400 hover:text-white transition">Sign Up</button>
+            </div>
+
+            <!-- Login Pane -->
+            <div id="auth-login-pane" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email or Phone Number</label>
+                    <input type="text" id="login-email" value="alex.johnson@whatsapp.web" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-wa-emerald">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Secure Password</label>
+                    <input type="password" id="login-pass" value="password123" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-wa-emerald">
+                </div>
+                <button onclick="performAuth('login')" class="w-full bg-gradient-to-r from-wa-emerald to-emerald-600 hover:opacity-95 text-white font-bold py-3.5 rounded-xl shadow-xl shadow-wa-emerald/30 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Launch Web Session
+                </button>
+            </div>
+
+            <!-- Sign Up Pane -->
+            <div id="auth-signup-pane" class="space-y-3 text-left hidden">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Alex Johnson" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-3 py-2 text-sm text-slate-100 focus:border-wa-emerald">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                    <input type="email" id="signup-email" placeholder="alex@whatsapp.web" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-3 py-2 text-sm text-slate-100 focus:border-wa-emerald">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+                    <input type="password" id="signup-pass" placeholder="••••••••" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-3 py-2 text-sm text-slate-100 focus:border-wa-emerald">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Bio / About Status</label>
+                    <input type="text" id="signup-bio" value="Available | Coding 🚀" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-3 py-2 text-sm text-slate-100 focus:border-wa-emerald">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Profile Photo (DP) URL</label>
+                    <input type="url" id="signup-avatar" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl px-3 py-2 text-sm text-slate-100 focus:border-wa-emerald">
+                </div>
+                <button onclick="performAuth('signup')" class="w-full bg-gradient-to-r from-wa-emerald to-emerald-600 hover:opacity-95 text-white font-bold py-3 rounded-xl shadow-xl shadow-wa-emerald/30 transition flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-user-plus"></i> Register & Enter App
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-container" class="w-full h-full max-w-[1750px] max-h-[1020px] flex overflow-hidden shadow-2xl relative hidden rounded-none lg:rounded-2xl border border-wa-darkBorder bg-wa-darkBg">
+        
+        <!-- SIDEBAR -->
+        <div id="main-sidebar" class="w-full md:w-96 lg:w-[420px] bg-wa-darkHeader border-r border-wa-darkBorder flex flex-col h-full shrink-0">
+            <!-- Sidebar Header -->
+            <div class="h-16 px-4 flex items-center justify-between border-b border-wa-darkBorder">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="openProfileModal()">
+                    <div class="relative">
+                        <img id="my-avatar-display" src="" class="w-10 h-10 rounded-full object-cover border-2 border-wa-emerald">
+                        <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-wa-emerald border-2 border-wa-darkHeader"></span>
+                    </div>
+                    <div>
+                        <h2 id="my-name-display" class="font-bold text-sm text-slate-100 leading-tight">Alex Johnson</h2>
+                        <span id="my-presence-status" class="text-[11px] text-wa-emerald font-semibold">Online</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1 text-slate-400">
+                    <button onclick="switchTab('chats')" class="p-2 rounded-full hover:bg-wa-darkHover transition text-wa-emerald" title="Chats"><i class="fa-solid fa-message"></i></button>
+                    <button onclick="switchTab('status')" class="p-2 rounded-full hover:bg-wa-darkHover transition relative" title="Status"><i class="fa-solid fa-circle-notch"></i><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-wa-emerald rounded-full"></span></button>
+                    <button onclick="switchTab('calls')" class="p-2 rounded-full hover:bg-wa-darkHover transition" title="Calls"><i class="fa-solid fa-phone"></i></button>
+                    <button onclick="switchTab('ai')" class="p-2 rounded-full hover:bg-wa-darkHover transition text-amber-400" title="Meta AI"><i class="fa-solid fa-robot"></i></button>
+                    <button onclick="openSaveContactModal()" class="p-2 rounded-full hover:bg-wa-darkHover transition text-wa-emerald" title="Add Contact"><i class="fa-solid fa-user-plus"></i></button>
+                    <button onclick="openCreateGroupModal()" class="p-2 rounded-full hover:bg-wa-darkHover transition" title="New Group"><i class="fa-solid fa-users"></i></button>
+                    <button onclick="openQrJoinModal()" class="p-2 rounded-full hover:bg-wa-darkHover transition text-purple-400" title="QR Join Group"><i class="fa-solid fa-qrcode"></i></button>
+                    <button onclick="openSettingsModal()" class="p-2 rounded-full hover:bg-wa-darkHover transition" title="Settings"><i class="fa-solid fa-gear"></i></button>
+                </div>
+            </div>
+
+            <!-- Search & Filters -->
+            <div class="p-2.5 space-y-2 bg-wa-darkBg">
+                <div class="bg-wa-darkHeader rounded-xl flex items-center px-3 py-2 border border-wa-darkBorder focus-within:border-wa-emerald">
+                    <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm mr-3"></i>
+                    <input type="text" id="search-input" oninput="filterChats(this.value)" placeholder="Search or start new chat" class="bg-transparent w-full text-sm text-slate-200 focus:outline-none">
+                </div>
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+                    <button onclick="setFilter('all')" id="filter-btn-all" class="px-3 py-1 rounded-full bg-wa-emerald text-white font-semibold shrink-0">All</button>
+                    <button onclick="setFilter('unread')" id="filter-btn-unread" class="px-3 py-1 rounded-full bg-wa-darkHeader text-slate-300 hover:bg-wa-darkHover shrink-0">Unread</button>
+                    <button onclick="setFilter('favourites')" id="filter-btn-favourites" class="px-3 py-1 rounded-full bg-wa-darkHeader text-slate-300 hover:bg-wa-darkHover shrink-0"><i class="fa-solid fa-star text-amber-400 mr-1"></i> Favourites</button>
+                    <button onclick="setFilter('groups')" id="filter-btn-groups" class="px-3 py-1 rounded-full bg-wa-darkHeader text-slate-300 hover:bg-wa-darkHover shrink-0">Groups</button>
+                    <button onclick="setFilter('archived')" id="filter-btn-archived" class="px-3 py-1 rounded-full bg-wa-darkHeader text-slate-300 hover:bg-wa-darkHover shrink-0">Archived</button>
+                </div>
+            </div>
+
+            <!-- Tab Panes -->
+            <div class="flex-1 overflow-y-auto relative bg-wa-darkBg">
+                <!-- Chats -->
+                <div id="tab-chats" class="tab-pane active divide-y divide-wa-darkBorder/40"></div>
+                <!-- Status -->
+                <div id="tab-status" class="tab-pane hidden p-3 space-y-4">
+                    <div class="flex items-center gap-3 p-3 rounded-2xl bg-wa-darkHeader border border-wa-darkBorder cursor-pointer hover:bg-wa-darkHover transition" onclick="openAddStatusModal()">
+                        <div class="relative">
+                            <img id="my-status-avatar" src="" class="w-12 h-12 rounded-full object-cover">
+                            <span class="absolute bottom-0 right-0 bg-wa-emerald text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold border-2 border-wa-darkHeader">+</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-slate-100">My Status</p>
+                            <p class="text-xs text-slate-400">Click to add text, photo or video</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-1">Recent Updates</p>
+                        <div id="status-stories-list" class="space-y-2"></div>
+                    </div>
+                </div>
+                <!-- Calls -->
+                <div id="tab-calls" class="tab-pane hidden p-3 space-y-3">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">Call Logs</p>
+                    <div id="calls-list-container" class="space-y-2"></div>
+                    <button onclick="clearCallHistory()" class="w-full py-2 bg-wa-darkHeader hover:bg-wa-darkHover text-red-400 text-xs font-semibold rounded-xl border border-wa-darkBorder"><i class="fa-solid fa-trash mr-1"></i> Clear Call Log</button>
+                </div>
+                <!-- AI Assistant -->
+                <div id="tab-ai" class="tab-pane hidden p-4 space-y-4">
+                    <div class="p-5 bg-gradient-to-br from-indigo-900/50 to-purple-900/50 rounded-2xl border border-indigo-500/30 text-center space-y-3">
+                        <div class="w-14 h-14 bg-indigo-600/30 border border-indigo-400/30 rounded-2xl flex items-center justify-center mx-auto text-indigo-400 text-2xl">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-white">Meta AI Companion</h3>
+                        <p class="text-xs text-slate-300">Ask questions, write code, or solve problems instantly!</p>
+                        <button onclick="openAIChatSession()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg transition">Open AI Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CHAT AREA -->
+        <div id="main-chat-area" class="flex-1 flex flex-col h-full bg-wa-darkBg relative hidden md:flex">
+            <!-- No Chat Placeholder -->
+            <div id="no-chat-selected" class="absolute inset-0 bg-wa-darkHeader flex flex-col items-center justify-center text-center p-6 z-20">
+                <div class="w-24 h-24 bg-wa-emerald/10 border border-wa-emerald/30 rounded-full flex items-center justify-center mb-4">
+                    <i class="fa-brands fa-whatsapp text-wa-emerald text-6xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-200 mb-2">WhatsApp Web Ultimate</h2>
+                <p class="text-xs text-slate-400 max-w-md leading-relaxed">Select any chat, group, or contact from the sidebar to begin messaging with end-to-end security.</p>
+                <div class="mt-6 flex items-center gap-2 text-[11px] text-slate-500 bg-wa-darkBg px-4 py-2 rounded-full border border-wa-darkBorder">
+                    <i class="fa-solid fa-lock text-wa-emerald"></i> End-to-end encrypted
+                </div>
+            </div>
+
+            <!-- Chat Header -->
+            <div id="chat-header" class="h-16 bg-wa-darkHeader px-4 flex items-center justify-between border-b border-wa-darkBorder shrink-0 z-10">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="openActiveContactInfo()">
+                    <div class="relative">
+                        <img id="chat-avatar" src="" class="w-10 h-10 rounded-full object-cover">
+                        <span id="chat-status-dot" class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-wa-darkHeader"></span>
+                    </div>
+                    <div>
+                        <h3 id="chat-title" class="font-bold text-sm text-slate-100 leading-tight">Contact Name</h3>
+                        <p id="chat-subtitle" class="text-xs text-slate-400">Online</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5 text-slate-400">
+                    <button onclick="startCall('voice')" class="p-2 rounded-full hover:bg-wa-darkHover transition" title="Voice Call"><i class="fa-solid fa-phone"></i></button>
+                    <button onclick="startCall('video')" class="p-2 rounded-full hover:bg-wa-darkHover transition" title="Video Call"><i class="fa-solid fa-video"></i></button>
+                    <button onclick="toggleDisappearingMessages()" id="header-disapp-btn" class="p-2 rounded-full hover:bg-wa-darkHover transition text-slate-400" title="Disappearing Messages"><i class="fa-solid fa-stopwatch"></i></button>
+                    <button onclick="toggleFavouriteActiveChat()" id="header-fav-btn" class="p-2 rounded-full hover:bg-wa-darkHover transition text-slate-400" title="Favourite"><i class="fa-solid fa-star"></i></button>
+                    <button onclick="toggleArchiveActiveChat()" class="p-2 rounded-full hover:bg-wa-darkHover transition" title="Archive"><i class="fa-solid fa-box-archive"></i></button>
+                    <button onclick="toggleBlockUser()" id="header-block-btn" class="p-2 rounded-full hover:bg-wa-darkHover transition text-amber-500" title="Block/Unblock"><i class="fa-solid fa-ban"></i></button>
+                    <button onclick="clearChatMessages()" class="p-2 rounded-full hover:bg-wa-darkHover transition text-red-400" title="Clear Chat"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>
+
+            <!-- Pinned Banner -->
+            <div id="pinned-banner" class="bg-wa-darkHeader/95 border-b border-wa-darkBorder px-4 py-2 text-xs flex items-center justify-between text-slate-300 hidden">
+                <div class="flex items-center gap-2 truncate">
+                    <i class="fa-solid fa-thumbtack text-wa-emerald"></i>
+                    <span class="font-semibold">Pinned:</span>
+                    <span id="pinned-text" class="truncate italic opacity-80">...</span>
+                </div>
+                <button onclick="unpinMessage()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="messages-container" class="flex-1 overflow-y-auto p-4 space-y-3 wp-doodles relative"></div>
+
+            <!-- Chat Input Bar -->
+            <div class="bg-wa-darkHeader p-3 border-t border-wa-darkBorder flex items-center gap-2 shrink-0 relative">
+                <div class="flex items-center gap-1 text-slate-400">
+                    <button onclick="toggleEmojiPicker()" class="p-2 rounded-full hover:bg-wa-darkHover transition"><i class="fa-regular fa-face-smile text-lg"></i></button>
+                    <button onclick="toggleAttachMenu()" class="p-2 rounded-full hover:bg-wa-darkHover transition"><i class="fa-solid fa-paperclip text-lg"></i></button>
+                </div>
+
+                <!-- Voice Recording Overlay -->
+                <div id="voice-recording-overlay" class="absolute inset-0 bg-wa-darkHeader px-4 flex items-center justify-between hidden z-20 border-t border-red-500">
+                    <div class="flex items-center gap-3">
+                        <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span>
+                        <span id="recording-timer" class="font-mono text-xs text-red-400 font-bold">00:00</span>
+                        <div class="flex items-center gap-1 h-4">
+                            <span class="w-1 bg-red-500 animate-wave-bar h-2"></span>
+                            <span class="w-1 bg-red-500 animate-wave-bar h-4"></span>
+                            <span class="w-1 bg-red-500 animate-wave-bar h-3"></span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="pauseResumeVoiceRecording()" id="pause-rec-btn" class="text-xs text-amber-400 hover:bg-wa-darkHover px-2.5 py-1.5 rounded-lg border border-amber-400/30"><i class="fa-solid fa-pause"></i> Pause</button>
+                        <button onclick="cancelVoiceRecording()" class="text-xs text-slate-400 hover:text-red-400 hover:bg-wa-darkHover px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-trash"></i> Delete</button>
+                        <button onclick="stopAndSendVoiceRecording()" class="bg-wa-emerald hover:bg-wa-emeraldDark text-white font-semibold text-xs rounded-xl px-3.5 py-2 flex items-center gap-1.5 shadow"><i class="fa-solid fa-paper-plane"></i> Send Voice</button>
+                    </div>
+                </div>
+
+                <input type="text" id="chat-input" onkeydown="if(event.key==='Enter') sendTextMessage()" placeholder="Type a message..." class="flex-1 bg-wa-darkBg text-slate-100 text-sm rounded-xl px-4 py-2.5 border border-wa-darkBorder focus:outline-none focus:border-wa-emerald transition">
+                
+                <button onclick="sendTextMessage()" class="bg-wa-emerald hover:bg-wa-emeraldDark text-white p-2.5 rounded-full shadow transition"><i class="fa-solid fa-paper-plane"></i></button>
+                <button onclick="startVoiceRecording()" class="bg-wa-darkHover hover:bg-slate-700 text-slate-200 p-2.5 rounded-full shadow transition"><i class="fa-solid fa-microphone"></i></button>
+            </div>
+
+            <!-- Attachments Menu -->
+            <div id="attach-menu" class="absolute bottom-16 left-12 bg-wa-darkHeader rounded-2xl shadow-2xl border border-wa-darkBorder p-2 space-y-1 hidden z-30 min-w-[190px]">
+                <button onclick="openPollCreator()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-slate-200 hover:bg-wa-darkHover rounded-xl transition"><i class="fa-solid fa-chart-simple text-amber-500 text-base"></i> Create Poll</button>
+                <button onclick="shareLocationCard()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-slate-200 hover:bg-wa-darkHover rounded-xl transition"><i class="fa-solid fa-location-dot text-red-500 text-base"></i> Share Location</button>
+                <button onclick="triggerQuickImageUpload()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-slate-200 hover:bg-wa-darkHover rounded-xl transition"><i class="fa-solid fa-image text-purple-500 text-base"></i> One-Click Image</button>
+                <button onclick="triggerQuickVideoUpload()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-slate-200 hover:bg-wa-darkHover rounded-xl transition"><i class="fa-solid fa-video text-blue-400 text-base"></i> MP4 Video</button>
+                <button onclick="triggerDocumentUpload()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-slate-200 hover:bg-wa-darkHover rounded-xl transition"><i class="fa-solid fa-file-lines text-emerald-400 text-base"></i> Document / PDF</button>
+                <button onclick="openEventCreator()" class="w-full flex items-center gap-3 px-3 py-2 text-xs text-slate-200 hover:bg-wa-darkHover rounded-xl transition"><i class="fa-solid fa-calendar-days text-indigo-400 text-base"></i> Schedule Event</button>
+            </div>
+
+            <!-- Emoji Picker -->
+            <div id="emoji-picker" class="absolute bottom-16 left-4 bg-wa-darkHeader rounded-2xl shadow-2xl border border-wa-darkBorder p-3 hidden z-30 max-w-xs">
+                <div class="grid grid-cols-6 gap-2 text-xl cursor-pointer">
+                    <span onclick="insertEmoji('😀')">😀</span><span onclick="insertEmoji('😂')">😂</span><span onclick="insertEmoji('❤️')">❤️</span><span onclick="insertEmoji('👍')">👍</span><span onclick="insertEmoji('🔥')">🔥</span><span onclick="insertEmoji('🎉')">🎉</span><span onclick="insertEmoji('🙏')">🙏</span><span onclick="insertEmoji('😮')">😮</span><span onclick="insertEmoji('😢')">😢</span><span onclick="insertEmoji('✨')">✨</span><span onclick="insertEmoji('😎')">😎</span><span onclick="insertEmoji('🚀')">🚀</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <!-- PROFILE MODAL -->
+    <div id="profile-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-4 text-center">
+            <h3 class="text-lg font-bold text-white">Profile & DP Settings</h3>
+            <div class="relative w-24 h-24 mx-auto">
+                <img id="modal-profile-avatar" src="" class="w-24 h-24 rounded-full object-cover border-2 border-wa-emerald shadow-lg">
+            </div>
+            <div class="text-left space-y-3">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Avatar / DP URL</label>
+                    <input type="url" id="modal-profile-avatar-input" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-xs text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Display Name</label>
+                    <input type="text" id="modal-profile-name" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">About / Bio</label>
+                    <input type="text" id="modal-profile-bio" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeModal('profile-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="saveProfileChanges()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-4">
+            <h3 class="text-lg font-bold text-white">Preferences & Settings</h3>
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">Theme Mode</label>
+                <select id="setting-theme" onchange="changeTheme(this.value)" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-xs text-white">
+                    <option value="dark">Dark Theme</option>
+                    <option value="light">Light Theme</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">Chat Wallpaper</label>
+                <select id="setting-wallpaper" onchange="changeWallpaper(this.value)" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-xs text-white">
+                    <option value="wp-doodles">WhatsApp Doodles</option>
+                    <option value="wp-midnight">Midnight Dark</option>
+                    <option value="wp-emerald">Emerald Gradient</option>
+                    <option value="wp-night">Night Indigo</option>
+                </select>
+            </div>
+            <div class="flex justify-end pt-2">
+                <button onclick="closeModal('settings-modal')" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD CONTACT MODAL -->
+    <div id="save-contact-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-4">
+            <h3 class="text-lg font-bold text-white">Add New Contact</h3>
+            <input type="text" id="contact-name" placeholder="Contact Name" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+            <input type="tel" id="contact-phone" placeholder="Phone Number" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+            <input type="text" id="contact-bio" placeholder="Bio / Status" value="Hey there! I am using WhatsApp." class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+            <div class="flex justify-end gap-3">
+                <button onclick="closeModal('save-contact-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="submitSaveContact()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Save Contact</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATE GROUP MODAL -->
+    <div id="create-group-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-4">
+            <h3 class="text-lg font-bold text-white">Create Group</h3>
+            <input type="text" id="group-title" placeholder="Group Name" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+            <input type="text" id="group-icon" placeholder="Group Icon URL" value="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=150" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2 text-xs text-white">
+            <div>
+                <p class="text-xs text-slate-400 mb-2">Select Members:</p>
+                <div id="group-members-picker" class="max-h-36 overflow-y-auto space-y-1 bg-wa-darkBg p-2 rounded-xl border border-wa-darkBorder"></div>
+            </div>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeModal('create-group-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="submitCreateGroup()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Create Group</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR JOIN GROUP MODAL -->
+    <div id="qr-join-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-4 text-center">
+            <h3 class="text-lg font-bold text-white">Scan QR to Join Group</h3>
+            <div class="w-48 h-48 bg-white p-3 rounded-2xl mx-auto flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-qrcode text-9xl text-slate-900"></i>
+            </div>
+            <p class="text-xs text-slate-300">Scan this QR code using your phone camera or simulator to instantly join the Hackathon Community Group.</p>
+            <div class="flex justify-center gap-3 pt-2">
+                <button onclick="closeModal('qr-join-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="simulateQrJoin()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Simulate Successful Join</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POLL MODAL -->
+    <div id="poll-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-3">
+            <h3 class="text-lg font-bold text-white">Create Poll</h3>
+            <input type="text" id="poll-question" placeholder="Ask a question..." class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+            <input type="text" id="poll-opt-1" placeholder="Option 1" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2 text-xs text-white">
+            <input type="text" id="poll-opt-2" placeholder="Option 2" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2 text-xs text-white">
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeModal('poll-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="submitPollMessage()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Send Poll</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EVENT MODAL -->
+    <div id="event-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-3">
+            <h3 class="text-lg font-bold text-white">Schedule Event</h3>
+            <input type="text" id="event-title" placeholder="Event Name (e.g. Hackathon Pitch)" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-sm text-white">
+            <input type="date" id="event-date" class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2.5 text-xs text-white">
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeModal('event-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="submitEventMessage()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Post Event</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD STATUS MODAL -->
+    <div id="add-status-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-wa-darkHeader rounded-3xl max-w-md w-full p-6 border border-wa-darkBorder shadow-2xl space-y-4">
+            <h3 class="text-lg font-bold text-white">Post Status (Photo/Video/Text)</h3>
+            <textarea id="status-text-input" rows="3" placeholder="What's on your mind?..." class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-3 text-sm text-white"></textarea>
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">Image or Video URL</label>
+                <input type="url" id="status-media-input" placeholder="https://..." class="w-full bg-wa-darkBg border border-wa-darkBorder rounded-xl p-2 text-xs text-white">
+            </div>
+            <div class="flex justify-end gap-3">
+                <button onclick="closeModal('add-status-modal')" class="px-4 py-2 text-xs text-slate-400">Cancel</button>
+                <button onclick="submitNewStatus()" class="px-4 py-2 text-xs bg-wa-emerald text-white rounded-xl font-bold">Post Status</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATUS VIEWER MODAL -->
+    <div id="story-viewer-modal" class="fixed inset-0 bg-black/95 z-[250] flex flex-col items-center justify-between p-4 hidden">
+        <div class="w-full max-w-md flex items-center justify-between text-white text-sm z-10">
+            <div class="flex items-center gap-3">
+                <img id="story-viewer-avatar" src="" class="w-9 h-9 rounded-full object-cover border border-wa-emerald">
+                <div>
+                    <p id="story-viewer-name" class="font-bold text-xs"></p>
+                    <p class="text-[10px] text-slate-400">Just now</p>
+                </div>
+            </div>
+            <button onclick="closeModal('story-viewer-modal')" class="text-slate-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+        <div id="story-viewer-card" class="w-full max-w-md flex-1 my-3 bg-slate-900 rounded-2xl flex flex-col items-center justify-center p-4 relative overflow-hidden border border-slate-800">
+            <img id="story-photo-content" src="" class="max-h-80 w-auto rounded-xl mb-2 hidden">
+            <video id="story-video-content" src="" controls class="max-h-80 w-auto rounded-xl mb-2 hidden"></video>
+            <p id="story-text-content" class="text-lg font-bold text-white text-center mb-4"></p>
+            <div id="story-comments-list" class="w-full max-h-32 overflow-y-auto space-y-1 text-left px-2 border-t border-slate-800 pt-2 text-xs text-slate-300"></div>
+        </div>
+        <div class="w-full max-w-md space-y-2 z-10">
+            <div class="text-xs text-slate-300 flex items-center justify-between px-1">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-eye text-wa-emerald"></i> <span id="story-views-count">12 views</span></span>
+                <button onclick="likeCurrentStatus()" class="text-red-500 hover:scale-125 transition flex items-center gap-1"><i id="status-like-icon" class="fa-regular fa-heart text-base"></i> <span id="story-likes-count" class="text-xs text-white">0</span></button>
+            </div>
+            <div class="flex items-center gap-2">
+                <input type="text" id="status-reply-input" placeholder="Reply to status..." class="flex-1 bg-wa-darkHeader text-white text-xs rounded-xl px-3 py-2 border border-wa-darkBorder focus:outline-none">
+                <button onclick="sendDirectStatusReply()" class="bg-wa-emerald text-white text-xs px-3.5 py-2 rounded-xl font-bold">Reply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CALL MODAL -->
+    <div id="call-modal" class="fixed inset-0 bg-slate-950/95 z-[260] flex flex-col items-center justify-between p-8 hidden">
+        <div class="text-center space-y-2">
+            <img id="call-user-avatar" src="" class="w-24 h-24 rounded-full object-cover border-4 border-wa-emerald mx-auto shadow-2xl animate-pulse">
+            <h2 id="call-user-name" class="text-xl font-bold text-white">Call Participant</h2>
+            <p id="call-status-lbl" class="text-xs text-wa-emerald font-semibold">Calling...</p>
+        </div>
+        <div class="flex items-center gap-6">
+            <button onclick="endCall()" class="w-14 h-14 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center text-xl shadow-xl transition"><i class="fa-solid fa-phone-slash"></i></button>
+        </div>
+    </div>
+
+    <!-- EXTERNAL JS -->
+    <script src="app.js"></script>
+</body>
+</html>
